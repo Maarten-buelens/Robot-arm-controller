@@ -1,1 +1,104 @@
-hello
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>ROBOT ARM CONTROLLER</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .range-div {
+      width: 50%;
+    }
+
+    .loader {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      background: linear-gradient(0deg, rgba(255, 61, 0, 0.2) 33%, #ff3d00 100%);
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+
+    .loader::after {
+      content: '';
+      box-sizing: border-box;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #263238;
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg)
+      }
+
+      100% {
+        transform: rotate(360deg)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class='container mt-5'>
+    <h1>ROBOT ARM CONTROLLER</h1>
+    <h4>by Maarten Buelens</h4>
+  </div>
+
+  <div class="container mt-3">
+    <!-- Base -->
+    <div class="range-div">
+      <label for="baseRange" class="form-label"><b>Base </b> Current angle: </label>
+      <label id="BaseAngle" for="baseRange" class="form-label">0</label>
+      <input type="range" class="form-range " id="baseRange" step="0.5" min="-180" max="180" name="baseRange"
+        oninput="SetDegOutput('BaseAngle',this.value)">
+    </div>
+    <!-- Arm1 -->
+    <div class="range-div">
+      <label for="arm1Range" class="form-label">Arm1</label>
+      <label id="arm1Angle" for="arm1Range" class="form-label">0</label>
+      <input type="range" class="form-range" id="arm1Range" step="0.5" min="-90" max="90" name="arm1Range"
+        oninput="SetDegOutput('arm1Angle',this.value)">
+    </div>
+    <!-- Arm2 -->
+    <div class="range-div">
+      <label for="arm2Range" class="form-label">Arm2</label>
+      <label id="arm2Angle" for="arm2Range" class="form-label">0</label>
+      <input type="range" class="form-range" id="arm2Range" step="0.5" min="-90" max="90" name="arm2Range"
+        oninput="SetDegOutput('arm2Angle',this.value)">
+    </div>
+    <!-- Arm2 -->
+    <div class="range-div">
+      <label for="arm3Range" class="form-label">Arm3</label>
+      <label id="arm3Angle" for="arm3Range" class="form-label">0</label>
+      <input type="range" class="form-range" id="arm3Range" step="0.5" min="-90" max="90" name="arm3Range"
+        oninput="SetDegOutput('arm3Angle',this.value)">
+    </div>
+
+
+  <button class="buttonload btn btn-primary mt-3" onclick="getandSetAngles()">
+    <i id="loader" class="fa fa-spinner fa-spin"></i>Loading
+  </button>
+
+  </div>
+
+  <!-- Bootstrap JS (optional) -->
+  <script src="/js/util.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    startup();
+  </script>
+</body>
+
+</html>
