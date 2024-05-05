@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>robot arm controller</title>
+  <!-- Bootstrap CSS -->
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <script src="/js/vendor/bundle.js"></script>
+  <link href="/css/vendor/fontawesome.css" rel="stylesheet" />
+  <link href="/css/vendor/all.css" rel="stylesheet" />
+  <link href="/css/vendor/solid.css" rel="stylesheet" />
+  <style>
+    .range-div {
+      width: 100%;
+    }
+
+    .loader {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      background: linear-gradient(0deg, rgba(255, 61, 0, 0.2) 33%, #ff3d00 100%);
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+
+    .loader::after {
+      content: '';
+      box-sizing: border-box;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #263238;
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg)
+      }
+
+      100% {
+        transform: rotate(360deg)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="device-ip" class="alert alert-primary" role="alert"
+    style="text-align: center;width: 50%; margin: auto; margin-top: 10px;" hidden>
+    This is a success alert—check it out!
+  </div>
+  <div id="succes" class="alert alert-success" role="alert"
+    style="text-align: center;width: 50%; margin: auto; margin-top: 10px;" hidden>
+    This is a success alert—check it out!
+  </div>
+
+  <p id="device-ip-internal" style="float:right" hidden></p>
+  <div class='container mt-5'>
+    <h1>ROBOT ARM CONTROLLER</h1>
+    <h4>by Maarten Buelens</h4>
+  </div>
+
+  <div id="startup-page" class="container mt-3">
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon3">subnet to search</span>
+      </div>
+      <input id="subnet-input" class='form-control' value="192.168.0.0" type="text" minlength="7" maxlength="15"
+        size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
+
+    </div>
+    <button id="discovery-start" class="btn btn-lg btn-primary btn-block" type="submit"
+      onclick="startDiscovery()">Search</button>
+
+  </div>
+
+
+
+
+
+  <div id="main-page" class="container mt-3" hidden>
+    <div class="row align-items-start">
+      <div class="col">
+        <!-- Base -->
+        <div class="range-div">
+          <label for="baseRange" class="form-label"><b>Base </b> Current angle: </label>
+          <label id="BaseAngle" for="baseRange" class="form-label">0</label>
+          <input type="range" class="form-range " id="baseRange" step="0.5" min="-180" max="180" name="baseRange"
+            oninput="SetDegOutput('BaseAngle',this.value)">
+        </div>
+        <!-- Arm1 -->
+        <div class="range-div">
+          <label for="arm1Range" class="form-label"><b>Arm1 </b> Current angle: </label>
+          <label id="arm1Angle" for="arm1Range" class="form-label">0</label>
+          <input type="range" class="form-range" id="arm1Range" step="0.5" min="-90" max="90" name="arm1Range"
+            oninput="SetDegOutput('arm1Angle',this.value)">
+        </div>
+        <!-- Arm2 -->
+        <div class="range-div">
+          <label for="arm2Range" class="form-label"><b>Arm2 </b> Current angle: </label>
+          <label id="arm2Angle" for="arm2Range" class="form-label">0</label>
+          <input type="range" class="form-range" id="arm2Range" step="0.5" min="-90" max="90" name="arm2Range"
+            oninput="SetDegOutput('arm2Angle',this.value)">
+        </div>
+        <!-- Arm2 -->
+        <div class="range-div">
+          <label for="arm3Range" class="form-label"><b>Arm3 </b> Current angle: </label>
+          <label id="arm3Angle" for="arm3Range" class="form-label">0</label>
+          <input type="range" class="form-range" id="arm3Range" step="0.5" min="-90" max="90" name="arm3Range"
+            oninput="SetDegOutput('arm3Angle',this.value)">
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="row">
+          <button id="MoveZero" class="buttonload btn btn-primary mt-3" onclick="moveToZero()"></button>
+        </div>
+        <div class="row">
+          <button id="UpdateAngles" class="buttonload btn btn-primary mt-3" onclick="getandSetAngles()"></button>
+        </div>
+        <div class="row">
+          <button id="SendAngles" class="buttonload btn btn-primary mt-3" onclick="moveToAngles()"></button>
+        </div>
+        <div class="row">
+          <div class="col" style="padding: 0; padding-right: 5px;">
+            <button id="openServo" class="buttonload btn btn-primary mt-3" style="width: 100%" onclick="moveServo('open')"></button></div>
+            <div class="col" style="padding: 0; padding-left: 5px;">
+            <button id="closeServo" class="buttonload btn btn-primary mt-3" style="width: 100%" onclick="moveServo('close')"></button></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bootstrap JS (optional) -->
+  <script src="/js/util.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="js/discovery.js"></script>
+  <script>
+    var deviceIp = "0.0.0.0";
+    startupDiscovery();
+
+  </script>
+</body>
+
+</html>
