@@ -11,55 +11,35 @@
   <link href="/css/vendor/fontawesome.css" rel="stylesheet" />
   <link href="/css/vendor/all.css" rel="stylesheet" />
   <link href="/css/vendor/solid.css" rel="stylesheet" />
-  <style>
-    .range-div {
-      width: 100%;
-    }
+  <link href="/css/bootstrap-toggle.min.css" rel="stylesheet" />
+  <link href="/css/css.css" rel="stylesheet" />
 
-    .loader {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: inline-block;
-      position: relative;
-      background: linear-gradient(0deg, rgba(255, 61, 0, 0.2) 33%, #ff3d00 100%);
-      box-sizing: border-box;
-      animation: rotation 1s linear infinite;
-    }
 
-    .loader::after {
-      content: '';
-      box-sizing: border-box;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #263238;
-    }
-
-    @keyframes rotation {
-      0% {
-        transform: rotate(0deg)
-      }
-
-      100% {
-        transform: rotate(360deg)
-      }
-    }
-  </style>
 </head>
 
 <body>
-  <div id="device-ip" class="alert alert-primary" role="alert"
-    style="text-align: center;width: 50%; margin: auto; margin-top: 10px;" hidden>
-    This is a success alert—check it out!
+  <div id="initial-load" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Loading</h5>
+        </div>
+        <div class="modal-body">
+          <p><i id="loader" class="fa fa-spinner fa-spin"></i> Please wait...</p>
+        </div>
+      </div>
+    </div>
   </div>
-  <div id="succes" class="alert alert-success" role="alert"
-    style="text-align: center;width: 50%; margin: auto; margin-top: 10px;" hidden>
-    This is a success alert—check it out!
+
+
+
+  <div id="alert">
+
+  </div>
+  <div id="alert-error" style="position: absolute;top: 10px;right: 10px;">
+
+  </div>
+  <div id="alert-succes" style="position: absolute;top: 10px;right: 10px;">
   </div>
 
   <p id="device-ip-internal" style="float:right" hidden></p>
@@ -122,6 +102,15 @@
 
       <div class="col">
         <div class="row">
+          <div class="col" style="padding: 0; padding-right: 5px;text-align: right;margin: auto;">
+            Power:
+          </div>
+
+          <div class="col" style="padding: 0; padding-left: 5px;"> <input id="power" type="checkbox" checked
+              data-toggle="toggle" onchange="power($(this).prop('checked'))"></div>
+
+        </div>
+        <div class="row">
           <button id="MoveZero" class="buttonload btn btn-primary mt-3" onclick="moveToZero()"></button>
         </div>
         <div class="row">
@@ -132,9 +121,31 @@
         </div>
         <div class="row">
           <div class="col" style="padding: 0; padding-right: 5px;">
-            <button id="openServo" class="buttonload btn btn-primary mt-3" style="width: 100%" onclick="moveServo('open')"></button></div>
-            <div class="col" style="padding: 0; padding-left: 5px;">
-            <button id="closeServo" class="buttonload btn btn-primary mt-3" style="width: 100%" onclick="moveServo('close')"></button></div>
+            <button id="openServo" class="buttonload btn btn-primary mt-3" style="width: 100%"
+              onclick="moveServo('open')"></button>
+          </div>
+          <div class="col" style="padding: 0; padding-left: 5px;">
+            <button id="closeServo" class="buttonload btn btn-primary mt-3" style="width: 100%"
+              onclick="moveServo('close')"></button>
+          </div>
+        </div>
+        <div class="row">
+          <label for="basic-url">file upload</label>
+          <div class="input-group mb-3">
+            <input id="file" type="file" class="form-control" aria-describedby="basic-addon3">
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col" style="padding: 0; padding-right: 5px;">
+            <button id="loadFile" class="buttonload btn btn-primary mt-3" style="width: 100%" onclick="readFile()">load
+              file</button>
+          </div>
+          <div class="col" style="padding: 0; padding-left: 5px;">
+            <button id="runFile" class="buttonload btn btn-primary mt-3" style="width: 100%"
+              onclick="moveServo('open')"></button>
+          </div>
         </div>
       </div>
     </div>
@@ -142,12 +153,15 @@
   </div>
 
   <!-- Bootstrap JS (optional) -->
+  <script src="/js/vendor/jquery.js"></script>
   <script src="/js/util.js"></script>
   <script src="/js/main.js"></script>
   <script src="js/discovery.js"></script>
+  <script src="/js/vendor/bootstrap-toggle.min.js"></script>
   <script>
     var deviceIp = "0.0.0.0";
     startupDiscovery();
+
 
   </script>
 </body>

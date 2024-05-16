@@ -8,23 +8,30 @@ function startupDiscovery() {
 }
 
 function startDiscovery() {
-    document.getElementById("discovery-start").innerHTML = '<i id="loader" class="fa fa-spinner fa-spin"></i>Searching';
+    document.getElementById("discovery-start").innerHTML = '<i id="loader" class="fa fa-spinner fa-spin"></i> Searching';
     discoverDevice()
     .then(devices => {
+        console.clear()
         const foundDevices = devices.filter(device => device !== null);
         console.log('Devices found:', foundDevices);
-        console.log("#"*50);
         console.log("discovery done");
-        console.log("Device ip: " + foundDevices[0]["ip"]);
+        try{
+            console.log("Device ip: " + foundDevices[0]["ip"]);
+        }
+        catch{
+            console.log("No device found");
+            sendAlert("error","No device found on the network")
+        }
+        sendAlert("main","connected to robot-arm ip: " + foundDevices[0]["ip"])
         document.getElementById("discovery-start").innerHTML = "SEND";
-        document.getElementById("device-ip").innerHTML = "connected to robot-arm ip: " + foundDevices[0]["ip"];
-        document.getElementById("device-ip").hidden = false;
+
         deviceIp = foundDevices[0]["ip"];
     
         startup();
     })
     .catch(error => {
         console.error('Error discovering devices:', error);
+        document.getElementById("discovery-start").innerHTML = "SEND";
     });
 
 }
@@ -35,6 +42,7 @@ async function discoverDevice() {
     console.log(subnet);
     for (let i = 1; i <= 255; i++) {
         const ip = `${subnet}.${i}`;
+        try{
         const requestPromise = fetch(`http://${ip}:80/discovery`, { signal: AbortSignal.timeout(5000) })
             .then(response => {
                 if (response.ok) {
@@ -55,6 +63,9 @@ async function discoverDevice() {
             });
 
         requests.push(requestPromise);
+        } catch{
+            return null;
+        }
     }
 
     return Promise.all(requests);
