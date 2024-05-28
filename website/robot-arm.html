@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>robot arm controller</title>
+    <!-- Bootstrap CSS -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <script src="/js/vendor/bundle.js"></script>
+    <link href="/css/vendor/fontawesome.css" rel="stylesheet" />
+    <link href="/css/vendor/all.css" rel="stylesheet" />
+    <link href="/css/vendor/solid.css" rel="stylesheet" />
+    <link href="/css/bootstrap-toggle.min.css" rel="stylesheet" />
+    <link href="/css/css.css" rel="stylesheet" />
+
+
+</head>
+
+<body>
+    <div id="output">
+        <!--<canvas id="canvas" style="border: 2px solid #000000;;"></canvas>-->
+    </div>
+
+</body>
+
+
+<script src="/js/util.js"></script>
+<script src="/js/robot-arm.js"></script>
+<script src="/js/clock.js"></script>
+<script>
+    let display = new robotDisplay(45, 30, -10,1);
+    div = document.getElementById("output");
+    div.appendChild(display.draw());
+
+    let angledisp = new angleDisplay(45);
+    div.appendChild(angledisp.getCanvas());
+</script>
+
+</html>

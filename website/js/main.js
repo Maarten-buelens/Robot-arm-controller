@@ -1,3 +1,6 @@
+const sequencer = new sequence();
+
+
 function SendCommand(command) {
   return fetch(`http://${deviceIp}/command`, {
     method: 'POST',
@@ -10,7 +13,7 @@ function SendCommand(command) {
   }).then((response) => response.text());
 }
 function getandSetAngles() {
-  buttonStartLoad();
+  buttonStartLoad("UpdateAngles");
   console.log("GETTINGS ANGLES");
   SendCommand("angle;").then((response) => {
     if (response.includes("DONE")) {
@@ -49,7 +52,7 @@ function checkComs() {
 }
 
 function moveToAngles() {
-  buttonStartLoad();
+  buttonStartLoad("SendAngles");
   let angle0 = document.getElementById("baseRange").value;
   let angle1 = document.getElementById("arm1Range").value;
   let angle2 = document.getElementById("arm2Range").value;
@@ -67,7 +70,7 @@ function moveToAngles() {
 }
 
 function moveToZero() {
-  buttonStartLoad();
+  buttonStartLoad("MoveZero");
   let command = `sync;0;0;0;0;`
   SendCommand(command).then((response) => {
     if (response.includes("DONE")) {
@@ -87,20 +90,31 @@ function moveToZero() {
     }
   });
 }
-function moveServo(dir) {
-  buttonStartLoad();
-  if (dir == 'open') {
-    var command = `servo;0;`
-  } else if (dir == 'close') {
-    var command = `servo;180;`
-  } else {
-    console.error("invlid servo dir")
-  }
 
+function moveHome() {
+  buttonStartLoad("home");
+  let command = `home;`
+  SendCommand(command).then((response) => {
+    if (response.includes("ERROR")) {
+      sendAlert("error",`Bad response from controller: ${response}`);
+    }
+    else {
+      sendAlert("succes", "done homing");
+      getandSetAngles();
+      buttonStopLoad();
+      
+    }
+  });
+}
+
+function moveServo() {
+  let angle = document.getElementById("servoRange").value;
+  let command = `servo;${angle};`;
   SendCommand(command).then((response) => {
     if (response.includes("DONE")) {
       sendAlert("succes", "done moving servo");
       buttonStopLoad();
+
     }
     else{
       sendAlert("error",`Bad response from controller: ${response}`);
@@ -109,7 +123,7 @@ function moveServo(dir) {
 }
 
 function getPower(){
-  buttonStartLoad();
+  buttonStartLoad("all");
   command = "power-get;";
   SendCommand(command).then((response) => {
     if (response.includes("DONE")) {
@@ -130,7 +144,7 @@ function getPower(){
 }
 
 function power(state){
-  buttonStartLoad();
+  buttonStartLoad("all");
   if(state == false){
     command = "power-off;";
     console.log('turning off power');
@@ -155,11 +169,12 @@ function startup() {
   document.getElementById("startup-page").hidden = true;
 
   $('#initial-load').modal('show');
-  buttonStartLoad();
+  buttonStartLoad("all");
   checkComs();
   getandSetAngles();
   getPower();
   
 
+  
 
 }

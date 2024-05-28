@@ -190,3 +190,7 @@
     height: 100px;
     margin: auto;
   }
+
+  .selected {
+    border: 2px solid #007bff;
+  }

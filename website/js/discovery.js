@@ -4,7 +4,7 @@ function startupDiscovery() {
         setTimeout(() => ctrl.abort(), ms)
         return ctrl.signal
     }
-    document.getElementById("subnet-input").value = "192.168.0";
+    document.getElementById("subnet-input").value = "192.168.4";
 }
 
 function startDiscovery() {
@@ -23,7 +23,7 @@ function startDiscovery() {
             sendAlert("error","No device found on the network")
         }
         sendAlert("main","connected to robot-arm ip: " + foundDevices[0]["ip"])
-        document.getElementById("discovery-start").innerHTML = "SEND";
+        document.getElementById("discovery-start").innerHTML = "Search";
 
         deviceIp = foundDevices[0]["ip"];
     
@@ -31,7 +31,7 @@ function startDiscovery() {
     })
     .catch(error => {
         console.error('Error discovering devices:', error);
-        document.getElementById("discovery-start").innerHTML = "SEND";
+        document.getElementById("discovery-start").innerHTML = "Search";
     });
 
 }

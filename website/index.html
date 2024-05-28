@@ -60,6 +60,7 @@
     </div>
     <button id="discovery-start" class="btn btn-lg btn-primary btn-block" type="submit"
       onclick="startDiscovery()">Search</button>
+    <button id="skip" class="buttonload btn btn-primary mt-3" style="width: 100%" onclick="startup()">skip</button>
 
   </div>
 
@@ -69,98 +70,133 @@
 
   <div id="main-page" class="container mt-3" hidden>
     <div class="row align-items-start">
-      <div class="col">
-        <!-- Base -->
-        <div class="range-div">
-          <label for="baseRange" class="form-label"><b>Base </b> Current angle: </label>
-          <label id="BaseAngle" for="baseRange" class="form-label">0</label>
-          <input type="range" class="form-range " id="baseRange" step="0.5" min="-180" max="180" name="baseRange"
-            oninput="SetDegOutput('BaseAngle',this.value)">
+      <!-- COLUM1 -->
+      <div class="col" style="margin: 10px;">
+        <div class="row">
+          <!-- Base -->
+          <div class="range-div">
+            <label for="baseRange" class="form-label"><b>Base </b> Current angle: </label>
+            <label id="BaseAngle" for="baseRange" class="form-label">0</label>
+            <input type="range" class="form-range " id="baseRange" step="0.5" min="-180" max="180" name="baseRange"
+              oninput="SetDegOutput('BaseAngle',this.value)">
+          </div>
         </div>
-        <!-- Arm1 -->
-        <div class="range-div">
-          <label for="arm1Range" class="form-label"><b>Arm1 </b> Current angle: </label>
-          <label id="arm1Angle" for="arm1Range" class="form-label">0</label>
-          <input type="range" class="form-range" id="arm1Range" step="0.5" min="-90" max="90" name="arm1Range"
-            oninput="SetDegOutput('arm1Angle',this.value)">
+
+        <div class="row">
+          <!-- Arm1 -->
+          <div class="range-div">
+            <label for="arm1Range" class="form-label"><b>Arm1 </b> Current angle: </label>
+            <label id="arm1Angle" for="arm1Range" class="form-label">0</label>
+            <input type="range" class="form-range" id="arm1Range" step="0.5" min="-90" max="90" name="arm1Range"
+              oninput="SetDegOutput('arm1Angle',this.value)">
+          </div>
         </div>
-        <!-- Arm2 -->
-        <div class="range-div">
-          <label for="arm2Range" class="form-label"><b>Arm2 </b> Current angle: </label>
-          <label id="arm2Angle" for="arm2Range" class="form-label">0</label>
-          <input type="range" class="form-range" id="arm2Range" step="0.5" min="-90" max="90" name="arm2Range"
-            oninput="SetDegOutput('arm2Angle',this.value)">
+
+        <div class="row">
+          <!-- Arm2 -->
+          <div class="range-div">
+            <label for="arm2Range" class="form-label"><b>Arm2 </b> Current angle: </label>
+            <label id="arm2Angle" for="arm2Range" class="form-label">0</label>
+            <input type="range" class="form-range" id="arm2Range" step="0.5" min="-90" max="90" name="arm2Range"
+              oninput="SetDegOutput('arm2Angle',this.value)">
+          </div>
         </div>
-        <!-- Arm2 -->
-        <div class="range-div">
-          <label for="arm3Range" class="form-label"><b>Arm3 </b> Current angle: </label>
-          <label id="arm3Angle" for="arm3Range" class="form-label">0</label>
-          <input type="range" class="form-range" id="arm3Range" step="0.5" min="-90" max="90" name="arm3Range"
-            oninput="SetDegOutput('arm3Angle',this.value)">
+
+        <div class="row">
+          <!-- Arm3 -->
+          <div class="range-div">
+            <label for="arm3Range" class="form-label"><b>Arm3 </b> Current angle: </label>
+            <label id="arm3Angle" for="arm3Range" class="form-label">0</label>
+            <input type="range" class="form-range" id="arm3Range" step="0.5" min="-90" max="90" name="arm3Range"
+              oninput="SetDegOutput('arm3Angle',this.value)">
+          </div>
         </div>
+        <!-- send arms -->
+        <div class="row"><button id="SendAngles" class="buttonload btn btn-primary mt-3"
+            onclick="moveToAngles()"></button></div>
       </div>
 
-      <div class="col">
-        <div class="row">
+
+      <!-- COLUM2 -->
+      <div class="col" style="margin: 10px;">
+
+        <div class="row" style="padding-top: 20px;">
           <div class="col" style="padding: 0; padding-right: 5px;text-align: right;margin: auto;">
             Power:
           </div>
-
           <div class="col" style="padding: 0; padding-left: 5px;"> <input id="power" type="checkbox" checked
               data-toggle="toggle" onchange="power($(this).prop('checked'))"></div>
+        </div>
+        <div class="row">
+          <div class="col" style="padding: 0; padding-right: 5px;"><button id="MoveZero"
+              class="buttonload btn btn-primary mt-3" onclick="moveToZero()" style="width: 100%;"></button></div>
+          <div class="col" style="padding: 0; padding-left: 5px;"><button id="home"
+              class="buttonload btn btn-primary mt-3" onclick="moveHome()" style="width: 100%;"></button></div>
+        </div>
+        <div class="row">
+          <div class="col" style="padding: 0; padding-right: 5px;"><button id="UpdateAngles"
+              class="buttonload btn btn-primary mt-3" onclick="getandSetAngles()" style="width: 100%"></button>
+          </div>
+          <div class="col" style="padding: 0; padding-left: 5px;"><button id="reset"
+              class="buttonload btn btn-primary mt-3" onclick="reset()" style="width: 100%"></button></div>
+        </div>
 
-        </div>
-        <div class="row">
-          <button id="MoveZero" class="buttonload btn btn-primary mt-3" onclick="moveToZero()"></button>
-        </div>
-        <div class="row">
-          <button id="UpdateAngles" class="buttonload btn btn-primary mt-3" onclick="getandSetAngles()"></button>
-        </div>
-        <div class="row">
-          <button id="SendAngles" class="buttonload btn btn-primary mt-3" onclick="moveToAngles()"></button>
-        </div>
-        <div class="row">
-          <div class="col" style="padding: 0; padding-right: 5px;">
-            <button id="openServo" class="buttonload btn btn-primary mt-3" style="width: 100%"
-              onclick="moveServo('open')"></button>
-          </div>
-          <div class="col" style="padding: 0; padding-left: 5px;">
-            <button id="closeServo" class="buttonload btn btn-primary mt-3" style="width: 100%"
-              onclick="moveServo('close')"></button>
-          </div>
-        </div>
-        <div class="row">
-          <label for="basic-url">file upload</label>
-          <div class="input-group mb-3">
-            <input id="file" type="file" class="form-control" aria-describedby="basic-addon3">
+        <!-- servo -->
+        <div class="row" style="margin-top: 15px;">
+          <div class="range-div">
+            <label for="servoRange" class="form-label"><b>servo </b> servo: </label>
+            <label id="servoAngle" for="servoRange" class="form-label">0</label>
+            <input type="range" class="form-range" id="servoRange" step="0.5" min="0" max="180" name="servoRange"
+              oninput="SetDegOutput('servoAngle',this.value)">
           </div>
         </div>
 
+        <!-- send servo -->
+        <div class="row"> <button id="moveservo" class="buttonload btn btn-primary mt-3" style="width: 100%"
+            onclick="moveServo()"></button>
+        </div>
+      </div>
 
+      <!-- COLUM3 -->
+      <div class="col" style="margin: 10px;">
+        <div class="row"> <button id="recordPosition" class="buttonload btn btn-primary mt-3" style="width: 100%"
+            onclick="sequencer.recordCurrentPosition()">Record position</button>
+        </div>
+        <div class="row"> <button id="recordPosition" class="buttonload btn btn-primary mt-3" style="width: 100%"
+          onclick="sequencer.moveToPosition()">move to position</button>
+      </div>
+      <div class="row"> <button id="recordPosition" class="buttonload btn btn-primary mt-3" style="width: 100%"
+        onclick="sequencer.clear()">clear</button>
+    </div>
+
+      </div>
+      <!-- COLUM4 -->
+      <div class="col" style="margin: 10px;">
+        <h4 style="text-align: center;">Saved Positions</h4>
         <div class="row">
-          <div class="col" style="padding: 0; padding-right: 5px;">
-            <button id="loadFile" class="buttonload btn btn-primary mt-3" style="width: 100%" onclick="readFile()">load
-              file</button>
-          </div>
-          <div class="col" style="padding: 0; padding-left: 5px;">
-            <button id="runFile" class="buttonload btn btn-primary mt-3" style="width: 100%"
-              onclick="moveServo('open')"></button>
-          </div>
+          <ul class="list-group" id="positionsView">
+          </ul>
         </div>
       </div>
     </div>
-
   </div>
+
 
   <!-- Bootstrap JS (optional) -->
   <script src="/js/vendor/jquery.js"></script>
   <script src="/js/util.js"></script>
+  <script src="js/robot-arm.js"></script>
+  <script src="/js/clock.js"></script>
+  <script src="js/sequence.js"></script>
   <script src="/js/main.js"></script>
   <script src="js/discovery.js"></script>
+ 
+
   <script src="/js/vendor/bootstrap-toggle.min.js"></script>
   <script>
     var deviceIp = "0.0.0.0";
     startupDiscovery();
+    //startup();
 
 
   </script>
