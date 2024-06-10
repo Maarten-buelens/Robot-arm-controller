@@ -12,7 +12,7 @@ class robotDisplay {
         this.L3 = 20 * this.scale;
 
         this.w = (this.L1 + this.L2 + this.L3) * 2 + 10;
-        this.h = this.L1 + this.L2 + this.L3 + 30;
+        this.h = (this.L1 + this.L2 + this.L3) * 1.5 + 30;
 
         this.canvas = document.createElement("canvas");
 
@@ -38,7 +38,7 @@ class robotDisplay {
     resetOriginArm() {
         //resets origin to top left then to center
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-        this.ctx.translate(this.w / 2, this.h - 10);
+        this.ctx.translate(this.w / 2, this.h - this.L1 * 2);
     }
 
     draw() {
@@ -46,7 +46,7 @@ class robotDisplay {
 
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.ctx.clearRect(0, 0, this.w, this.h);
-        this.ctx.translate(this.w / 2, this.h - 10);
+        this.ctx.translate(this.w / 2, this.h - this.L1 * 2);
 
         // Base circle
         this.ctx.beginPath();

@@ -23,10 +23,7 @@ function getandSetAngles() {
       angle1 = angles.split(";")[2];
       angle2 = angles.split(";")[3];
       angle3 = angles.split(";")[4];
-      SetDegOutput('BaseAngle', angle0); SetDegRange('baseRange', angle0);
-      SetDegOutput('arm1Angle', angle1); SetDegRange('arm1Range', angle1);
-      SetDegOutput('arm2Angle', angle2); SetDegRange('arm2Range', angle2);
-      SetDegOutput('arm3Angle', angle3); SetDegRange('arm3Range', angle3);
+      setDeg(angle0,angle1,angle2,angle3);
       buttonStopLoad();
     } else {
       sendAlert("error",`Bad response from controller: ${response}`);
@@ -169,10 +166,13 @@ function startup() {
   document.getElementById("startup-page").hidden = true;
 
   $('#initial-load').modal('show');
+  setDeg(0,0,0,0);
+  updatePreview();
   buttonStartLoad("all");
   checkComs();
   getandSetAngles();
   getPower();
+  
   
 
   

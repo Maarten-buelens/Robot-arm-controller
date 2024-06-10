@@ -43,9 +43,20 @@
   </div>
 
   <p id="device-ip-internal" style="float:right" hidden></p>
-  <div class='container mt-5'>
-    <h1>ROBOT ARM CONTROLLER</h1>
-    <h4>by Maarten Buelens</h4>
+
+  <div class="row align-items-start">
+
+    <div class="col">
+      <div id="preview" class="container mt-3" style="max-width: fit-content;"></div>
+    </div>
+
+    <div class="col">
+      <div class='container mt-5' style="text-align: left;">
+        <h1>ROBOT ARM CONTROLLER</h1>
+        <h4>by Maarten Buelens</h4>
+      </div>
+    </div>
+
   </div>
 
   <div id="startup-page" class="container mt-3">
@@ -78,7 +89,7 @@
             <label for="baseRange" class="form-label"><b>Base </b> Current angle: </label>
             <label id="BaseAngle" for="baseRange" class="form-label">0</label>
             <input type="range" class="form-range " id="baseRange" step="0.5" min="-180" max="180" name="baseRange"
-              oninput="SetDegOutput('BaseAngle',this.value)">
+              onchange="SetDegOutput('BaseAngle',this.value)" oninput="SetDegOutput('BaseAngle',this.value)">
           </div>
         </div>
 
@@ -88,7 +99,7 @@
             <label for="arm1Range" class="form-label"><b>Arm1 </b> Current angle: </label>
             <label id="arm1Angle" for="arm1Range" class="form-label">0</label>
             <input type="range" class="form-range" id="arm1Range" step="0.5" min="-90" max="90" name="arm1Range"
-              oninput="SetDegOutput('arm1Angle',this.value)">
+              onchange="SetDegOutput('arm1Angle',this.value)" oninput="SetDegOutput('arm1Angle',this.value)">
           </div>
         </div>
 
@@ -98,7 +109,7 @@
             <label for="arm2Range" class="form-label"><b>Arm2 </b> Current angle: </label>
             <label id="arm2Angle" for="arm2Range" class="form-label">0</label>
             <input type="range" class="form-range" id="arm2Range" step="0.5" min="-90" max="90" name="arm2Range"
-              oninput="SetDegOutput('arm2Angle',this.value)">
+              onchange="SetDegOutput('arm2Angle',this.value)" oninput="SetDegOutput('arm2Angle',this.value)">
           </div>
         </div>
 
@@ -108,7 +119,7 @@
             <label for="arm3Range" class="form-label"><b>Arm3 </b> Current angle: </label>
             <label id="arm3Angle" for="arm3Range" class="form-label">0</label>
             <input type="range" class="form-range" id="arm3Range" step="0.5" min="-90" max="90" name="arm3Range"
-              oninput="SetDegOutput('arm3Angle',this.value)">
+              onchange="SetDegOutput('arm3Angle',this.value)" oninput="SetDegOutput('arm3Angle',this.value)">
           </div>
         </div>
         <!-- send arms -->
@@ -147,7 +158,7 @@
             <label for="servoRange" class="form-label"><b>servo </b> servo: </label>
             <label id="servoAngle" for="servoRange" class="form-label">0</label>
             <input type="range" class="form-range" id="servoRange" step="0.5" min="0" max="180" name="servoRange"
-              oninput="SetDegOutput('servoAngle',this.value)">
+              onchange="SetDegOutput('servoAngle',this.value)" oninput="SetDegOutput('servoAngle',this.value)">
           </div>
         </div>
 
@@ -162,13 +173,29 @@
         <div class="row"> <button id="recordPosition" class="buttonload btn btn-primary mt-3" style="width: 100%"
             onclick="sequencer.recordCurrentPosition()">Record position</button>
         </div>
-        <div class="row"> <button id="recordPosition" class="buttonload btn btn-primary mt-3" style="width: 100%"
-          onclick="sequencer.moveToPosition()">move to position</button>
-      </div>
-      <div class="row"> <button id="recordPosition" class="buttonload btn btn-primary mt-3" style="width: 100%"
-        onclick="sequencer.clear()">clear</button>
-    </div>
+        <div class="row"> <button id="moveToPosition" class="buttonload btn btn-primary mt-3" style="width: 100%"
+            onclick="sequencer.moveToPosition()">move to position</button>
+        </div>
+        <div class="row"> <button id="runAll" class="buttonload btn btn-primary mt-3" style="width: 100%"
+            onclick="sequencer.runAll()">run all</button>
+        </div>
 
+        <div class="row"> <button id="clear" class="buttonload btn btn-primary mt-3" style="width: 100%"
+            onclick="sequencer.clear()">clear</button>
+        </div>
+
+        <div class="row"> <button id="download" class="buttonload btn btn-primary mt-3" style="width: 100%"
+            onclick="sequencer.download('robot-arm.gcode')">download to file</button>
+        </div>
+
+        <div class="input-group mb-3">
+
+          <input type="file" class="form-control" id="upload" aria-describedby="basic-addon3">
+        </div>
+
+        <div class="row"> <button id="uploadButton" class="buttonload btn btn-primary mt-3" style="width: 100%"
+            onclick="sequencer.upload('robot-arm.gcode')">load file</button>
+        </div>
       </div>
       <!-- COLUM4 -->
       <div class="col" style="margin: 10px;">
@@ -190,7 +217,7 @@
   <script src="js/sequence.js"></script>
   <script src="/js/main.js"></script>
   <script src="js/discovery.js"></script>
- 
+
 
   <script src="/js/vendor/bootstrap-toggle.min.js"></script>
   <script>
