@@ -42,7 +42,7 @@ class robotDisplay {
     }
 
     draw() {
-        console.log("Running update");
+
 
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.ctx.clearRect(0, 0, this.w, this.h);

@@ -1,4 +1,4 @@
-buttonNames = { "UpdateAngles": "update angles", "SendAngles": "move to angles", "MoveZero": "move to zero", "moveservo": "move servo", "home": "home", "reset": "reconnect" }
+buttonNames = { "UpdateAngles": "update angles", "SendAngles": "move to angles", "MoveZero": "move to zero", "moveservo": "move servo", "home": "home", "reset": "reconnect", "enablecontroller": "toggle controller" }
 
 function SetDegOutput(elementName, value) {
   document.getElementById(elementName).innerHTML = value;
@@ -98,4 +98,8 @@ function reset(){
   startup();
   });
   
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms || DEF_DELAY));
 }

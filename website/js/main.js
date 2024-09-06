@@ -1,5 +1,5 @@
 const sequencer = new sequence();
-
+const controller = new controllerClass()
 
 function SendCommand(command) {
   return fetch(`http://${deviceIp}/command`, {
@@ -48,14 +48,14 @@ function checkComs() {
   });
 }
 
-function moveToAngles() {
+async function moveToAngles() {
   buttonStartLoad("SendAngles");
   let angle0 = document.getElementById("baseRange").value;
   let angle1 = document.getElementById("arm1Range").value;
   let angle2 = document.getElementById("arm2Range").value;
   let angle3 = document.getElementById("arm3Range").value;
   let command = `sync;${angle1};${angle2};${angle3};${angle0};`
-  SendCommand(command).then((response) => {
+  await SendCommand(command).then((response) => {
     if (response.includes("DONE")) {
       sendAlert("succes", "done moving");
       buttonStopLoad();
@@ -161,6 +161,27 @@ function power(state){
   });
 }
 
+//controller 
+window.addEventListener("gamepadconnected", (e) => {
+  console.log(
+    "Gamepad connected at index %d: %s. %d buttons, %d axes.",
+    e.gamepad.index,
+    e.gamepad.id,
+    e.gamepad.buttons.length,
+    e.gamepad.axes.length,
+  );
+  sendAlert("succes", "controller connected");
+  document.getElementById("controllerState").innerHTML = '<a style="color: green;">connected</a>'
+  controller.connected = true;
+});
+
+window.addEventListener("gamepaddisconnected", (e) => {
+  sendAlert("error", "controller disconnected");
+  document.getElementById("controllerState").innerHTML = '<a style="color: red;">disconnected</a>'
+  controller.connected = false;
+  controller.disable();
+
+});
 function startup() {
   document.getElementById("main-page").hidden = false;
   document.getElementById("startup-page").hidden = true;
